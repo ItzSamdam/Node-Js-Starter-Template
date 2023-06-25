@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
-const UserDaom = require('../dao/UserDaom');
+const UserDaom = require('../daom/UserDaom');
 const responseHandler = require('../utilities/responseHandler');
 const logger = require('../config/logger');
 const { userConstant } = require('../config/constant');

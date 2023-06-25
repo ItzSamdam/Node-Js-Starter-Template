@@ -1,6 +1,6 @@
 const passport = require('passport');
 const httpStatus = require('http-status');
-const ApiError = require('../helper/ApiError');
+const ApiError = require('../utilities/ApiError');
 
 const verifyCallback = (req, res, resolve, reject) => {
     return async (err, user, info) => {

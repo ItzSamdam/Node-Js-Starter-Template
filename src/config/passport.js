@@ -1,9 +1,9 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
-const UserDao = require('../dao/UserDao');
+const UserDaom = require('../daom/UserDaom');
 const config = require('./config');
 const { tokenTypes } = require('./tokens');
-const TokenDao = require('../dao/TokenDao');
-const RedisService = require('../service/RedisService');
+const TokenDaom = require('../daom/TokenDaom');
+const RedisService = require('../services/RedisService');
 const models = require('../models');
 
 const User = models.user;
@@ -18,8 +18,8 @@ const jwtVerify = async (req, payload, done) => {
         if (payload.type !== tokenTypes.ACCESS) {
             throw new Error('Invalid token type');
         }
-        const userDao = new UserDao();
-        const tokenDao = new TokenDao();
+        const userDaom = new UserDaom();
+        const tokenDaom = new TokenDaom();
         const redisService = new RedisService();
         const authorization =
             req.headers.authorization !== undefined ? req.headers.authorization.split(' ') : [];
@@ -30,7 +30,7 @@ const jwtVerify = async (req, payload, done) => {
         let tokenDoc = redisService.hasToken(authorization[1], 'access_token');
         if (!tokenDoc) {
             console.log('Cache Missed!');
-            tokenDoc = await tokenDao.findOne({
+            tokenDoc = await tokenDaom.findOne({
                 token: authorization[1],
                 type: tokenTypes.ACCESS,
                 blacklisted: false,
@@ -47,7 +47,7 @@ const jwtVerify = async (req, payload, done) => {
 
         if (!user) {
             console.log('User Cache Missed!');
-            user = await userDao.findOneByWhere({ uuid: payload.sub });
+            user = await userDaom.findOneByWhere({ uuid: payload.sub });
             redisService.setUser(user);
         }
 

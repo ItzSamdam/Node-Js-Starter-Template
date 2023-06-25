@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
-const AuthService = require('../service/AuthService');
-const TokenService = require('../service/TokenService');
-const UserService = require('../service/UserService');
+const AuthService = require('../services/AuthService');
+const TokenService = require('../services/TokenService');
+const UserService = require('../services/UserService');
 const logger = require('../config/logger');
 const { tokenTypes } = require('../config/tokens');
 

@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const config = require('../config/config');
-const ApiError = require('../helper/ApiError');
+const ApiError = require('../utilities/ApiError');
 const logger = require('../config/logger');
 
 const errorConverter = (err, req, res, next) => {
