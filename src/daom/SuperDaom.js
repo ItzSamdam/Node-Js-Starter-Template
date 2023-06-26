@@ -1,6 +1,6 @@
 const logger = require('../config/logger');
 
-class MegaDaom {
+class SuperDaom {
     constructor(model) {
         this.Model = model;
     }
@@ -176,10 +176,8 @@ class MegaDaom {
 
     async checkExist(condition) {
         return this.Model.count({ where: condition }).then((count) => {
-            if (count !== 0) {
-                return true;
-            }
-            return false;
+            return count !== 0;
+
         });
     }
 
@@ -200,4 +198,4 @@ class MegaDaom {
             });
     }
 }
-module.exports = MegaDaom;
+module.exports = SuperDaom;

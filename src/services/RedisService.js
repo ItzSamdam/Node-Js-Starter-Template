@@ -31,10 +31,8 @@ class RedisService {
      */
     hasToken = async (token, type = 'access_token') => {
         const hasToken = await this.redisHelper.get(`${type}:${token}`);
-        if (hasToken != null) {
-            return true;
-        }
-        return false;
+        return hasToken != null;
+
     };
 
     /**
@@ -67,10 +65,8 @@ class RedisService {
      */
     setUser = async (user) => {
         const setUser = await this.redisHelper.set(`user:${user.uuid}`, JSON.stringify(user));
-        if (!setUser) {
-            return true;
-        }
-        return false;
+        return !setUser;
+
     };
 }
 

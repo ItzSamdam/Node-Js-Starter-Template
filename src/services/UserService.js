@@ -8,7 +8,7 @@ const { userConstant } = require('../config/constant');
 
 class UserService {
     constructor() {
-        this.UserDaom = new UserDaom();
+        this.userDaom = new UserDaom();
     }
 
     /**
@@ -19,7 +19,7 @@ class UserService {
     createUser = async (userBody) => {
         try {
             let message = 'Successfully Registered the account! Please Verify your email.';
-            if (await this.UserDaom.isEmailExists(userBody.email)) {
+            if (await this.userDaom.isEmailExists(userBody.email)) {
                 return responseHandler.returnError(httpStatus.BAD_REQUEST, 'Email already taken');
             }
             const uuid = uuidv4();
@@ -29,7 +29,7 @@ class UserService {
             userBody.status = userConstant.STATUS_ACTIVE;
             userBody.email_verified = userConstant.EMAIL_VERIFIED_FALSE;
 
-            let userData = await this.UserDaom.create(userBody);
+            let userData = await this.userDaom.create(userBody);
 
             if (!userData) {
                 message = 'Registration Failed! Please Try again.';
@@ -54,20 +54,20 @@ class UserService {
 
     isEmailExists = async (email) => {
         const message = 'Email found!';
-        if (!(await this.UserDaom.isEmailExists(email))) {
+        if (!(await this.userDaom.isEmailExists(email))) {
             return responseHandler.returnError(httpStatus.BAD_REQUEST, 'Email not Found!!');
         }
         return responseHandler.returnSuccess(httpStatus.OK, message);
     };
 
     getUserByUuid = async (uuid) => {
-        return this.UserDaom.findOneByWhere({ uuid });
+        return this.userDaom.findOneByWhere({ uuid });
     };
 
     changePassword = async (data, uuid) => {
         let message = 'Login Successful';
         let statusCode = httpStatus.OK;
-        let user = await this.UserDaom.findOneByWhere({ uuid });
+        let user = await this.userDaom.findOneByWhere({ uuid });
 
         if (!user) {
             return responseHandler.returnError(httpStatus.NOT_FOUND, 'User Not found!');
@@ -88,7 +88,7 @@ class UserService {
             message = 'Wrong old Password!';
             return responseHandler.returnError(statusCode, message);
         }
-        const updateUser = await this.UserDaom.updateWhere(
+        const updateUser = await this.userDaom.updateWhere(
             { password: bcrypt.hashSync(data.password, 8) },
             { uuid },
         );

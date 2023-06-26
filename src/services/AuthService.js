@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const httpStatus = require('http-status');
-const userDaom = require('../daom/userDaom');
+const UserDaom = require('../daom/UserDaom');
 const TokenDaom = require('../daom/TokenDaom');
 const { tokenTypes } = require('../config/tokens');
 const responseHandler = require('../utilities/responseHandler');
@@ -9,7 +9,7 @@ const RedisService = require('./RedisService');
 
 class AuthService {
     constructor() {
-        this.userDaom = new userDaom();
+        this.userDaom = new UserDaom();
         this.TokenDaom = new TokenDaom();
         this.redisService = new RedisService();
     }
@@ -67,8 +67,8 @@ class AuthService {
             type: tokenTypes.ACCESS,
             blacklisted: false,
         });
-        await this.redisService.removeToken(req.body.access_token, 'access_token');
-        await this.redisService.removeToken(req.body.refresh_token, 'refresh_token');
+        this.redisService.removeToken(req.body.access_token, 'access_token');
+        this.redisService.removeToken(req.body.refresh_token, 'refresh_token');
     };
 }
 

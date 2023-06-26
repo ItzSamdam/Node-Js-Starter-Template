@@ -1,4 +1,4 @@
-const MegaDaom = require('./MegaDaom');
+const MegaDaom = require('./SuperDaom');
 const models = require('../models');
 
 const User = models.user;
@@ -14,10 +14,8 @@ class UserDaom extends MegaDaom {
 
     async isEmailExists(email) {
         return User.count({ where: { email } }).then((count) => {
-            if (count !== 0) {
-                return true;
-            }
-            return false;
+            return count !== 0;
+
         });
     }
 

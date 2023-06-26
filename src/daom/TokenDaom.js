@@ -1,4 +1,4 @@
-const MegaDaom = require('./MegaDaom');
+const MegaDaom = require('./SuperDaom');
 const models = require('../models');
 
 const Token = models.token;
