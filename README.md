@@ -124,7 +124,3 @@ src\
  |--cronJobs.js     # Job Scheduler
  |--server.js        # App entry point
 ```
-
-## License
-
-[MIT](LICENSE)

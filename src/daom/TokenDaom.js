@@ -1,9 +1,9 @@
-const MegaDaom = require('./SuperDaom');
+const SuperDaom = require('./SuperDaom');
 const models = require('../models');
 
 const Token = models.token;
 
-class TokenDaom extends MegaDaom {
+class TokenDaom extends SuperDaom {
     constructor() {
         super(Token);
     }
