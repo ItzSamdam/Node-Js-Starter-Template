@@ -5,7 +5,7 @@ const UserService = require('../services/UserService');
 const logger = require('../config/logger');
 const { tokenTypes } = require('../config/tokens');
 
-class AuthController {
+class UserController {
     constructor() {
         this.userService = new UserService();
         this.tokenService = new TokenService();
@@ -96,4 +96,4 @@ class AuthController {
     };
 }
 
-module.exports = AuthController;
+module.exports = UserController;

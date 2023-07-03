@@ -2,6 +2,7 @@ const winston = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 const config = require('./config');
 
+
 const enumerateErrorFormat = winston.format((info) => {
     if (info.message instanceof Error) {
         info.message = {
@@ -29,6 +30,7 @@ transport.on('rotate', (oldFilename, newFilename) => {
     // call function like upload to s3 or on cloud
 });
 
+//system logger
 const logger = winston.createLogger({
     format: winston.format.combine(enumerateErrorFormat(), winston.format.json()),
     transports: [

@@ -2,8 +2,10 @@ const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
 
+//link dotenv
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
+//env validation sequence
 const envValidation = Joi.object()
     .keys({
         NODE_ENV: Joi.string().valid('development', 'production', 'test').required(),

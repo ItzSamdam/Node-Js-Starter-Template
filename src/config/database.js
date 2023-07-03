@@ -1,6 +1,7 @@
 const config = require('./config');
 
 module.exports = {
+    //dev credentials
     development: {
         username: config.dbUser,
         password: config.dbPass,
@@ -11,6 +12,7 @@ module.exports = {
             bigNumberStrings: true,
         },
     },
+    //staging credentials
     test: {
         username: config.dbUser,
         password: config.dbPass,
@@ -21,6 +23,7 @@ module.exports = {
             bigNumberStrings: true,
         },
     },
+    //live credentials
     production: {
         username: config.dbUser,
         password: config.dbPass,

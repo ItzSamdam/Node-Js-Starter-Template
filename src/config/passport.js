@@ -13,6 +13,7 @@ const jwtOptions = {
     passReqToCallback: true,
 };
 
+//authentication sequence
 const jwtVerify = async (req, payload, done) => {
     try {
         if (payload.type !== tokenTypes.ACCESS) {
@@ -36,7 +37,6 @@ const jwtVerify = async (req, payload, done) => {
                 blacklisted: false,
             });
         }
-
         if (!tokenDoc) {
             return done(null, false);
         }
@@ -44,17 +44,14 @@ const jwtVerify = async (req, payload, done) => {
         if (user) {
             user = new User(user);
         }
-
         if (!user) {
             console.log('User Cache Missed!');
             user = await userDaom.findOneByWhere({ uuid: payload.sub });
             redisService.setUser(user);
         }
-
         if (!user) {
             return done(null, false);
         }
-
         done(null, user);
     } catch (error) {
         console.log(error);
