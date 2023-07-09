@@ -31,6 +31,12 @@ class TokenService {
         return jwt.sign(payload, secret);
     };
 
+    /**
+     * verify token
+     * @returns {Object}
+     * @param token
+     * @param type
+     */
     verifyToken = async (token, type) => {
         const payload = await jwt.verify(token, config.jwt.secret, (err, decoded) => {
             if (err) {
@@ -80,6 +86,12 @@ class TokenService {
     saveMultipleTokens = async (tokens) => {
         return this.tokenDaom.bulkCreate(tokens);
     };
+
+    /**
+     * Delete TOken by ID
+     * @returns {Object}
+     * @param id
+     */
 
     removeTokenById = async (id) => {
         return this.tokenDaom.remove({ id });

@@ -6,6 +6,17 @@ const config = require('../config/config');
 const logger = require('../config/logger');
 
 class EmailHelper {
+
+    /**
+     * Set Value
+     * @param {String} from
+     * @param {String} to
+     * @param {String} subject
+     * @param body
+     * @param auth
+     * @param {Boolean} attachment
+     * @returns {String/Boolean}
+     */
     async sendEmail(from, to, subject, body, auth = null, attachment = false) {
         try {
             const apiKey = auth === null ? config.mailgun.apiKey : auth.apiKey;
@@ -36,6 +47,17 @@ class EmailHelper {
         }
     }
 
+    /**
+     * Set Value
+     * @param {String} from
+     * @param {String} to
+     * @param {String} subject
+     * @param text
+     * @param body
+     * @param auth
+     * @param {Boolean} attachment
+     * @returns {String/Boolean}
+     */
     async sendEmailWithAttachment(from, to, subject, text, body, attachment, auth = null) {
         try {
             const apiKey = auth === null ? config.mailgun.apiKey : auth.apiKey;

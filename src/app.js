@@ -25,9 +25,10 @@ app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
 app.get('/', async (req, res) => {
+
     const data = {
         message: 'Congratulations! You\'re Live!',
-        uptime: 'Server Running since '+ Date()
+        uptime: 'Server Running since '+ Date(),
     }
     res.status(200).send(data);
 });
