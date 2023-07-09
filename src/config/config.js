@@ -13,6 +13,7 @@ const envValidation = Joi.object()
         DB_HOST: Joi.string().default('localhost'),
         DB_USER: Joi.string().required(),
         DB_PASS: Joi.string().required(),
+        // DB_PASS: Joi.string().allow(null, ''), allowing null values
         DB_NAME: Joi.string().required(),
         JWT_SECRET: Joi.string().required().description('JWT secret key'),
         JWT_ACCESS_EXPIRATION_MINUTES: Joi.number()
@@ -34,6 +35,14 @@ const envValidation = Joi.object()
         REDIS_PORT: Joi.number().default(6379),
         REDIS_USE_PASSWORD: Joi.string().default('no'),
         REDIS_PASSWORD: Joi.string(),
+
+        MAILGUN_API_KEY: Joi.string().required(),
+        MAILGUN_DOMAIN: Joi.string().required(),
+        SYSTEM_EMAIL: Joi.string().required(),
+
+        CLOUDINARY_CLOUD_NAME: Joi.string().required(),
+        CLOUDINARY_API_KEY: Joi.string().required(),
+        CLOUDINARY_API_SECRET: Joi.string().required()
     })
     .unknown();
 
@@ -70,4 +79,14 @@ module.exports = {
         usePassword: envVar.REDIS_USE_PASSWORD,
         password: envVar.REDIS_PASSWORD,
     },
+    mailgun: {
+        apiKey: envVar.MAILGUN_API_KEY,
+        domain: envVar.MAILGUN_DOMAIN,
+    },
+    cloudinary: {
+        cloudName: envVar.CLOUDINARY_CLOUD_NAME,
+        cloudApiKey: envVar.CLOUDINARY_API_KEY,
+        cloudApiSecret: envVar.CLOUDINARY_API_SECRET
+    },
+    systemEmail: envVar.SYSTEM_EMAIL
 };

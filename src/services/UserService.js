@@ -60,10 +60,21 @@ class UserService {
         return responseHandler.returnSuccess(httpStatus.OK, message);
     };
 
+    /**
+     * Get user by id
+     * @returns {Object}
+     * @param uuid
+     */
     getUserByUuid = async (uuid) => {
         return this.userDaom.findOneByWhere({ uuid });
     };
 
+    /**
+     * change password
+     * @returns {Object}
+     * @param data
+     * @param uuid
+     */
     changePassword = async (data, uuid) => {
         let message = 'Login Successful';
         let statusCode = httpStatus.OK;
