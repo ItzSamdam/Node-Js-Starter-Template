@@ -6,7 +6,7 @@ const {v2: cloudinary} = require("cloudinary");
 const {CloudinaryStorage} = require("multer-storage-cloudinary");
 
 
-class MediaUpload {
+class MediaHandler {
 
     pathStorage = async (req, res) => {
         try {
@@ -94,4 +94,4 @@ class MediaUpload {
     //provide logic if additional upload method exist
 }
 
-module.exports = MediaUpload;
+module.exports = MediaHandler;
