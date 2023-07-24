@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "node js starter template using sequelize orm",
   "main": "src/server.js",
+  "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/server.js",
     "start": "cross-env NODE_ENV=production node src/server.js",

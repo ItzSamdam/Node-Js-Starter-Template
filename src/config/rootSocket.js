@@ -12,4 +12,4 @@ const rootSocket = (io) => {
     });
     return io;
 };
-module.exports = rootSocket;
+export default rootSocket;

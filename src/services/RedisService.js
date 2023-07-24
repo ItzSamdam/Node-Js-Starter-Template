@@ -1,6 +1,6 @@
-const redisClient = require('../config/redisClient');
-const RedisHelper = require('../utilities/RedisHelper');
-const { jwt } = require('../config/config');
+import redisClient from '../config/redisClient';
+import RedisHelper from '../utilities/RedisHelper';
+import { jwt } from '../config/config';
 
 class RedisService {
     constructor() {
@@ -70,4 +70,4 @@ class RedisService {
     };
 }
 
-module.exports = RedisService;
+export default RedisService;

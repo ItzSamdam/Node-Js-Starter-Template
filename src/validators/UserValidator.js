@@ -1,18 +1,19 @@
-const Joi = require('joi');
-const httpStatus = require('http-status');
-const ApiError = require('../utilities/ApiError');
+import { object, string, ref } from 'joi';
+import { BAD_REQUEST } from 'http-status';
+import ApiError from '../utilities/ApiError';
 
-class UserValidator {
+class UserValidator
+{
     async userCreateValidator(req, res, next) {
         // create schema object
         // schema options
         // validate request body against schema
-        const schema = Joi.object({
-            email: Joi.string().email().required(),
-            password: Joi.string().min(6).required(),
-            confirm_password: Joi.string().valid(Joi.ref('password')).required(),
-            first_name: Joi.string(),
-            last_name: Joi.string(),
+        const schema = object({
+            email: string().email().required(),
+            password: string().min(6).required(),
+            confirm_password: string().valid(ref('password')).required(),
+            first_name: string(),
+            last_name: string(),
         }), options = {
             abortEarly: false, // include all errors
             allowUnknown: true, // ignore unknown props
@@ -26,7 +27,7 @@ class UserValidator {
                     return details.message;
                 })
                 .join(', ');
-            next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
+            next(new ApiError(BAD_REQUEST, errorMessage));
         } else {
             // on success replace req.body with validated value and trigger next middleware function
             req.body = value;
@@ -38,9 +39,9 @@ class UserValidator {
         // create schema object
         // schema options
         // validate request body against schema
-        const schema = Joi.object({
-            email: Joi.string().email().required(),
-            password: Joi.string().min(6).required(),
+        const schema = object({
+            email: string().email().required(),
+            password: string().min(6).required(),
         }), options = {
             abortEarly: false, // include all errors
             allowUnknown: true, // ignore unknown props
@@ -54,7 +55,7 @@ class UserValidator {
                     return details.message;
                 })
                 .join(', ');
-            next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
+            next(new ApiError(BAD_REQUEST, errorMessage));
         } else {
             // on success replace req.body with validated value and trigger next middleware function
             req.body = value;
@@ -66,8 +67,8 @@ class UserValidator {
         // create schema object
         // schema options
         // validate request body against schema
-        const schema = Joi.object({
-            email: Joi.string().email().required(),
+        const schema = object({
+            email: string().email().required(),
         }), options = {
             abortEarly: false, // include all errors
             allowUnknown: true, // ignore unknown props
@@ -81,7 +82,7 @@ class UserValidator {
                     return details.message;
                 })
                 .join(', ');
-            next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
+            next(new ApiError(BAD_REQUEST, errorMessage));
         } else {
             // on success replace req.body with validated value and trigger next middleware function
             req.body = value;
@@ -91,10 +92,10 @@ class UserValidator {
 
     async changePasswordValidator(req, res, next) {
         // create schema object
-        const schema = Joi.object({
-            old_password: Joi.string().required(),
-            password: Joi.string().min(6).required(),
-            confirm_password: Joi.string().min(6).required(),
+        const schema = object({
+            old_password: string().required(),
+            password: string().min(6).required(),
+            confirm_password: string().min(6).required(),
         });
 
         // schema options
@@ -114,7 +115,7 @@ class UserValidator {
                     return details.message;
                 })
                 .join(', ');
-            next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
+            next(new ApiError(BAD_REQUEST, errorMessage));
         } else {
             // on success replace req.body with validated value and trigger next middleware function
             req.body = value;
@@ -123,4 +124,4 @@ class UserValidator {
     }
 }
 
-module.exports = UserValidator;
+export default UserValidator;

@@ -1,4 +1,4 @@
-const logger = require('../config/logger');
+import { error } from '../config/logger';
 
 class SuperDaom {
     constructor(model) {
@@ -11,7 +11,7 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e);
             });
     }
@@ -22,7 +22,7 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e);
             });
     }
@@ -37,7 +37,7 @@ class SuperDaom {
                     return result;
                 })
                 .catch((e) => {
-                    logger.error(e);
+                    error(e);
                     console.log(e);
                 });
         }
@@ -50,7 +50,7 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e);
             });
     }
@@ -61,7 +61,7 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e);
             });
     }
@@ -72,7 +72,7 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e);
             });
     }
@@ -86,7 +86,7 @@ class SuperDaom {
                     return result;
                 })
                 .catch((e) => {
-                    logger.error(e);
+                    error(e);
                     console.log(e);
                 });
         } catch (e) {
@@ -129,7 +129,7 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e.message);
             });
     }
@@ -140,7 +140,7 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e);
             });
     }
@@ -192,10 +192,10 @@ class SuperDaom {
                 return result;
             })
             .catch((e) => {
-                logger.error(e);
+                error(e);
                 console.log(e);
                 return [];
             });
     }
 }
-module.exports = SuperDaom;
+export default SuperDaom;

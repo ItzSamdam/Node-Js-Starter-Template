@@ -1,7 +1,7 @@
-const SuperDaom = require('./SuperDaom');
-const models = require('../models');
+import SuperDaom from './SuperDaom';
+import { user as _user } from '../models';
 
-const User = models.user;
+const User = _user;
 
 class UserDaom extends SuperDaom {
     constructor() {
@@ -24,4 +24,4 @@ class UserDaom extends SuperDaom {
     }
 }
 
-module.exports = UserDaom;
+export default UserDaom;

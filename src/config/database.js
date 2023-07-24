@@ -1,38 +1,33 @@
-const config = require('./config');
+import { dbUser, dbPass, dbName, dbHost, port as _port } from './config';
 
-module.exports = {
-    //dev credentials
-    development: {
-        username: config.dbUser,
-        password: config.dbPass,
-        database: config.dbName,
-        host: config.dbHost,
-        dialect: 'mysql',
-        dialectOptions: {
-            bigNumberStrings: true,
-        },
+export const development = {
+    username: dbUser,
+    password: dbPass,
+    database: dbName,
+    host: dbHost,
+    dialect: 'mysql',
+    dialectOptions: {
+        bigNumberStrings: true,
     },
-    //staging credentials
-    test: {
-        username: config.dbUser,
-        password: config.dbPass,
-        database: config.dbName,
-        host: config.dbHost,
-        dialect: 'mysql',
-        dialectOptions: {
-            bigNumberStrings: true,
-        },
+};
+export const test = {
+    username: dbUser,
+    password: dbPass,
+    database: dbName,
+    host: dbHost,
+    dialect: 'mysql',
+    dialectOptions: {
+        bigNumberStrings: true,
     },
-    //live credentials
-    production: {
-        username: config.dbUser,
-        password: config.dbPass,
-        database: config.dbName,
-        host: config.dbHost,
-        port: config.port,
-        dialect: 'mysql',
-        dialectOptions: {
-            bigNumberStrings: true,
-        },
+};
+export const production = {
+    username: dbUser,
+    password: dbPass,
+    database: dbName,
+    host: dbHost,
+    port: _port,
+    dialect: 'mysql',
+    dialectOptions: {
+        bigNumberStrings: true,
     },
 };

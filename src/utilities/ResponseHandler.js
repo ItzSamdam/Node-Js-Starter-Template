@@ -75,7 +75,7 @@ const getPaginationData = (rows, page, limit) => {
     };
 };
 
-module.exports = {
+export default {
     logError,
     logErrorMiddleware,
     returnError,

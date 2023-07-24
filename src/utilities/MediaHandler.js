@@ -1,20 +1,20 @@
-const multer = require('multer');
-const fs = require('fs');
-const logger = require("../config/logger");
-const config = require('../config/config');
-const {v2: cloudinary} = require("cloudinary");
-const {CloudinaryStorage} = require("multer-storage-cloudinary");
+import multer, { diskStorage } from 'multer';
+import { existsSync, mkdirSync } from 'fs';
+import { error } from "../config/logger";
+import { cloudinary as _cloudinary } from '../config/config';
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 
 class MediaHandler {
 
     pathStorage = async (req, res) => {
         try {
-            const storage = multer.diskStorage({
+            const storage = diskStorage({
                 destination: function (req, file, callback) {
                     const destPath = req.uploadPath;
-                    if (!fs.existsSync(destPath))
-                        fs.mkdirSync(destPath);
+                    if (!existsSync(destPath))
+                        mkdirSync(destPath);
                     callback(null, destPath);
                 },
                 filename: function (req, file, callback) {
@@ -30,7 +30,7 @@ class MediaHandler {
             return multer({storage: storage});
         } catch (err) {
             console.log(err);
-            logger.error(err);
+            error(err);
             return false;
         }
     }
@@ -39,9 +39,9 @@ class MediaHandler {
         try {
             //instantiate cloudinary setup
             cloudinary.config({
-                cloud_name: config.cloudinary.cloudName || process.env.CLOUDINARY_CLOUD_NAME,
-                api_key: config.cloudinary.cloudApiKey || process.env.CLOUDINARY_API_KEY,
-                api_secret: config.cloudinary.cloudApiSecret || process.env.CLOUDINARY_API_SECRET
+                cloud_name: _cloudinary.cloudName || process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: _cloudinary.cloudApiKey || process.env.CLOUDINARY_API_KEY,
+                api_secret: _cloudinary.cloudApiSecret || process.env.CLOUDINARY_API_SECRET
             });
 
             //optimize image on upload
@@ -70,7 +70,7 @@ class MediaHandler {
             return multer({storage: storage, limits: {fileSize: 10 * 1024 * 1024}});
         } catch (err) {
             console.log(err);
-            logger.error(err);
+            error(err);
             return false;
         }
     }
@@ -86,7 +86,7 @@ class MediaHandler {
             //logic here
             return true;
         } catch (err) {
-            logger.error(err);
+            error(err);
             return false;
         }
     }
@@ -94,4 +94,4 @@ class MediaHandler {
     //provide logic if additional upload method exist
 }
 
-module.exports = MediaHandler;
+export default MediaHandler;

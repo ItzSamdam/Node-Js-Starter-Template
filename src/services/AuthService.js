@@ -1,11 +1,11 @@
-const bcrypt = require('bcryptjs');
-const httpStatus = require('http-status');
-const UserDaom = require('../daom/UserDaom');
-const TokenDaom = require('../daom/TokenDaom');
-const { tokenTypes } = require('../config/tokens');
-const responseHandler = require('../utilities/responseHandler');
-const logger = require('../config/logger');
-const RedisService = require('./RedisService');
+import { compare } from 'bcryptjs';
+import { OK, BAD_REQUEST, BAD_GATEWAY, NOT_FOUND } from 'http-status';
+import UserDaom from '../daom/UserDaom';
+import TokenDaom from '../daom/TokenDaom';
+import { tokenTypes } from '../config/tokens';
+import { returnError, returnSuccess } from '../utilities/responseHandler';
+import { error } from '../config/logger';
+import RedisService from './RedisService';
 
 class AuthService {
     constructor() {
@@ -23,28 +23,28 @@ class AuthService {
     loginWithEmailPassword = async (email, password) => {
         try {
             let message = 'Login Successful';
-            let statusCode = httpStatus.OK;
+            let statusCode = OK;
             let user = await this.userDaom.findByEmail(email);
             if (user == null) {
-                return responseHandler.returnError(
-                    httpStatus.BAD_REQUEST,
+                return returnError(
+                    BAD_REQUEST,
                     'Invalid Email Address!',
                 );
             }
-            const isPasswordValid = await bcrypt.compare(password, user.password);
+            const isPasswordValid = await compare(password, user.password);
             user = user.toJSON();
             delete user.password;
 
             if (!isPasswordValid) {
-                statusCode = httpStatus.BAD_REQUEST;
+                statusCode = BAD_REQUEST;
                 message = 'Wrong Password!';
-                return responseHandler.returnError(statusCode, message);
+                return returnError(statusCode, message);
             }
 
-            return responseHandler.returnSuccess(statusCode, message, user);
+            return returnSuccess(statusCode, message, user);
         } catch (e) {
-            logger.error(e);
-            return responseHandler.returnError(httpStatus.BAD_GATEWAY, 'Something Went Wrong!!');
+            error(e);
+            return returnError(BAD_GATEWAY, 'Something Went Wrong!!');
         }
     };
 
@@ -58,7 +58,7 @@ class AuthService {
             blacklisted: false,
         });
         if (!refreshTokenDoc) {
-            res.status(httpStatus.NOT_FOUND).send({ message: 'User Not found!' });
+            res.status(NOT_FOUND).send({ message: 'User Not found!' });
         }
         await this.TokenDaom.remove({
             token: req.body.refresh_token,
@@ -75,4 +75,4 @@ class AuthService {
     };
 }
 
-module.exports = AuthService;
+export default AuthService;

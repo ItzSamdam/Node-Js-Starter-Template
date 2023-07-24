@@ -3,8 +3,8 @@ const moment = require('moment');
 const { Op } = require('sequelize');
 const config = require('../config/config');
 const { tokenTypes } = require('../config/tokens');
-const TokenDaom = require('../daom/TokenDaom');
-const RedisService = require('./RedisService');
+const TokenDaom = require('../daom/TokenDaom').default;
+const RedisService = require('./RedisService').default;
 
 class TokenService {
     constructor() {

@@ -1,10 +1,10 @@
-const httpStatus = require('http-status');
-const bcrypt = require('bcryptjs');
-const { v4: uuidv4 } = require('uuid');
-const UserDaom = require('../daom/UserDaom');
-const responseHandler = require('../utilities/responseHandler');
-const logger = require('../config/logger');
-const { userConstant } = require('../config/constant');
+import { BAD_REQUEST, CREATED, OK, NOT_FOUND } from 'http-status';
+import { hashSync, compare } from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
+import UserDaom from '../daom/UserDaom';
+import { returnError, returnSuccess } from '../utilities/responseHandler';
+import { error } from '../config/logger';
+import { userConstant } from '../config/constant';
 
 class UserService {
     constructor() {
@@ -20,11 +20,11 @@ class UserService {
         try {
             let message = 'Successfully Registered the account! Please Verify your email.';
             if (await this.userDaom.isEmailExists(userBody.email)) {
-                return responseHandler.returnError(httpStatus.BAD_REQUEST, 'Email already taken');
+                return returnError(BAD_REQUEST, 'Email already taken');
             }
             const uuid = uuidv4();
             userBody.email = userBody.email.toLowerCase();
-            userBody.password = bcrypt.hashSync(userBody.password, 8);
+            userBody.password = hashSync(userBody.password, 8);
             userBody.uuid = uuid;
             userBody.status = userConstant.STATUS_ACTIVE;
             userBody.email_verified = userConstant.EMAIL_VERIFIED_FALSE;
@@ -33,16 +33,16 @@ class UserService {
 
             if (!userData) {
                 message = 'Registration Failed! Please Try again.';
-                return responseHandler.returnError(httpStatus.BAD_REQUEST, message);
+                return returnError(BAD_REQUEST, message);
             }
 
             userData = userData.toJSON();
             delete userData.password;
 
-            return responseHandler.returnSuccess(httpStatus.CREATED, message, userData);
+            return returnSuccess(CREATED, message, userData);
         } catch (e) {
-            logger.error(e);
-            return responseHandler.returnError(httpStatus.BAD_REQUEST, 'Something went wrong!');
+            error(e);
+            return returnError(BAD_REQUEST, 'Something went wrong!');
         }
     };
 
@@ -55,9 +55,9 @@ class UserService {
     isEmailExists = async (email) => {
         const message = 'Email found!';
         if (!(await this.userDaom.isEmailExists(email))) {
-            return responseHandler.returnError(httpStatus.BAD_REQUEST, 'Email not Found!!');
+            return returnError(BAD_REQUEST, 'Email not Found!!');
         }
-        return responseHandler.returnSuccess(httpStatus.OK, message);
+        return returnSuccess(OK, message);
     };
 
     /**
@@ -77,43 +77,43 @@ class UserService {
      */
     changePassword = async (data, uuid) => {
         let message = 'Login Successful';
-        let statusCode = httpStatus.OK;
+        let statusCode = OK;
         let user = await this.userDaom.findOneByWhere({ uuid });
 
         if (!user) {
-            return responseHandler.returnError(httpStatus.NOT_FOUND, 'User Not found!');
+            return returnError(NOT_FOUND, 'User Not found!');
         }
 
         if (data.password !== data.confirm_password) {
-            return responseHandler.returnError(
-                httpStatus.BAD_REQUEST,
+            return returnError(
+                BAD_REQUEST,
                 'Confirm password not matched',
             );
         }
 
-        const isPasswordValid = await bcrypt.compare(data.old_password, user.password);
+        const isPasswordValid = await compare(data.old_password, user.password);
         user = user.toJSON();
         delete user.password;
         if (!isPasswordValid) {
-            statusCode = httpStatus.BAD_REQUEST;
+            statusCode = BAD_REQUEST;
             message = 'Wrong old Password!';
-            return responseHandler.returnError(statusCode, message);
+            return returnError(statusCode, message);
         }
         const updateUser = await this.userDaom.updateWhere(
-            { password: bcrypt.hashSync(data.password, 8) },
+            { password: hashSync(data.password, 8) },
             { uuid },
         );
 
         if (updateUser) {
-            return responseHandler.returnSuccess(
-                httpStatus.OK,
+            return returnSuccess(
+                OK,
                 'Password updated Successfully!',
                 {},
             );
         }
 
-        return responseHandler.returnError(httpStatus.BAD_REQUEST, 'Password Update Failed!');
+        return returnError(BAD_REQUEST, 'Password Update Failed!');
     };
 }
 
-module.exports = UserService;
+export default UserService;

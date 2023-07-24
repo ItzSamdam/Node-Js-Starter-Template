@@ -1,5 +1,7 @@
-class RedisHelper {
-    constructor(redisClient) {
+class RedisHelper
+{
+    constructor(redisClient)
+    {
         this.redisClient = redisClient;
     }
 
@@ -80,4 +82,4 @@ class RedisHelper {
 
 }
 
-module.exports = RedisHelper;
+export default RedisHelper;

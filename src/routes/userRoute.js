@@ -1,9 +1,9 @@
-const express = require('express');
-const AuthController = require('../controllers/UserController');
-const UserValidator = require('../validators/UserValidator');
+import { Router } from 'express';
+import AuthController from '../controllers/UserController';
+import UserValidator from '../validators/UserValidator';
 
-const router = express.Router();
-const auth = require('../middlewares/auth');
+const router = Router();
+import auth from '../middlewares/auth';
 
 const authController = new AuthController();
 const userValidator = new UserValidator();
@@ -20,4 +20,4 @@ router.put(
     authController.changePassword,
 );
 
-module.exports = router;
+export default router;

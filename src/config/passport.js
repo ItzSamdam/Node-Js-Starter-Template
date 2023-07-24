@@ -1,14 +1,14 @@
-const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
-const UserDaom = require('../daom/UserDaom');
-const config = require('./config');
-const { tokenTypes } = require('./tokens');
-const TokenDaom = require('../daom/TokenDaom');
-const RedisService = require('../services/RedisService');
-const models = require('../models');
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import UserDaom from '../daom/UserDaom';
+import { jwt } from './config';
+import { tokenTypes } from './tokens';
+import TokenDaom from '../daom/TokenDaom';
+import RedisService from '../services/RedisService';
+import { user as _user } from '../models';
 
-const User = models.user;
+const User = _user;
 const jwtOptions = {
-    secretOrKey: config.jwt.secret,
+    secretOrKey: jwt.secret,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     passReqToCallback: true,
 };
@@ -61,6 +61,6 @@ const jwtVerify = async (req, payload, done) => {
 
 const jwtStrategy = new JwtStrategy(jwtOptions, jwtVerify);
 
-module.exports = {
+export default {
     jwtStrategy,
 };

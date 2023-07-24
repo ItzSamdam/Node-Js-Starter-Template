@@ -1,9 +1,9 @@
-const winston = require('winston');
-const DailyRotateFile = require('winston-daily-rotate-file');
-const config = require('./config');
+import { format as _format, createLogger, transports as _transports } from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import { logConfig } from './config';
 
 
-const enumerateErrorFormat = winston.format((info) => {
+const enumerateErrorFormat = _format((info) => {
     if (info.message instanceof Error) {
         info.message = {
             message: info.message.message,
@@ -19,7 +19,7 @@ const enumerateErrorFormat = winston.format((info) => {
     return info;
 });
 const transport = new DailyRotateFile({
-    filename: config.logConfig.logFolder + config.logConfig.logFile,
+    filename: logConfig.logFolder + logConfig.logFile,
     datePattern: 'YYYY-MM-DD',
     zippedArchive: true,
     maxSize: '20m',
@@ -31,13 +31,13 @@ transport.on('rotate', (oldFilename, newFilename) => {
 });
 
 //system logger
-const logger = winston.createLogger({
-    format: winston.format.combine(enumerateErrorFormat(), winston.format.json()),
+const logger = createLogger({
+    format: _format.combine(enumerateErrorFormat(), _format.json()),
     transports: [
         transport,
-        new winston.transports.Console({
+        new _transports.Console({
             level: 'info',
         }),
     ],
 });
-module.exports = logger;
+export default logger;

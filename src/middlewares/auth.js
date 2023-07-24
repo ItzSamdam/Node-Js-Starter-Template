@@ -1,11 +1,11 @@
-const passport = require('passport');
-const httpStatus = require('http-status');
-const ApiError = require('../utilities/ApiError');
+import { authenticate } from 'passport';
+import { UNAUTHORIZED } from 'http-status';
+import ApiError from '../utilities/ApiError';
 
 const verifyCallback = (req, res, resolve, reject) => {
     return async (err, user, info) => {
         if (err || info || !user) {
-            return reject(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'));
+            return reject(new ApiError(UNAUTHORIZED, 'Please authenticate'));
         }
         req.user = user;
 
@@ -16,7 +16,7 @@ const verifyCallback = (req, res, resolve, reject) => {
 const auth = () => {
     return async (req, res, next) => {
         return new Promise((resolve, reject) => {
-            passport.authenticate(
+            authenticate(
                 'jwt',
                 { session: false },
                 verifyCallback(req, res, resolve, reject),
@@ -31,4 +31,4 @@ const auth = () => {
     };
 };
 
-module.exports = auth;
+export default auth;

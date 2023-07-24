@@ -14,7 +14,7 @@ const verificationCodeConstant = {
     STATUS_USED: 1,
 };
 
-module.exports = {
+export default {
     userConstant,
     verificationCodeConstant,
 };

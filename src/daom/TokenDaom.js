@@ -1,7 +1,7 @@
-const SuperDaom = require('./SuperDaom');
-const models = require('../models');
+import SuperDaom from './SuperDaom';
+import { token } from '../models';
 
-const Token = models.token;
+const Token = token;
 
 class TokenDaom extends SuperDaom {
     constructor() {
@@ -17,4 +17,4 @@ class TokenDaom extends SuperDaom {
     }
 }
 
-module.exports = TokenDaom;
+export default TokenDaom;

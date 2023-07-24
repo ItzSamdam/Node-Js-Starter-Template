@@ -1,9 +1,9 @@
-const httpStatus = require('http-status');
-const AuthService = require('../services/AuthService');
-const TokenService = require('../services/TokenService');
-const UserService = require('../services/UserService');
-const logger = require('../config/logger');
-const { tokenTypes } = require('../config/tokens');
+import { BAD_GATEWAY, NO_CONTENT } from 'http-status';
+import AuthService from '../services/AuthService';
+import TokenService from '../services/TokenService';
+import UserService from '../services/UserService';
+import { error } from '../config/logger';
+import { tokenTypes } from '../config/tokens';
 
 class UserController {
     constructor() {
@@ -24,8 +24,8 @@ class UserController {
             const { message, data } = user.response;
             res.status(user.statusCode).send({ status, message, data, tokens });
         } catch (e) {
-            logger.error(e);
-            res.status(httpStatus.BAD_GATEWAY).send(e);
+            error(e);
+            res.status(BAD_GATEWAY).send(e);
         }
     };
 
@@ -34,8 +34,8 @@ class UserController {
             const isExists = await this.userService.isEmailExists(req.body.email.toLowerCase());
             res.status(isExists.statusCode).send(isExists.response);
         } catch (e) {
-            logger.error(e);
-            res.status(httpStatus.BAD_GATEWAY).send(e);
+            error(e);
+            res.status(BAD_GATEWAY).send(e);
         }
     };
 
@@ -56,14 +56,14 @@ class UserController {
             }
             res.status(user.statusCode).send({ status, code, message, data, tokens });
         } catch (e) {
-            logger.error(e);
-            res.status(httpStatus.BAD_GATEWAY).send(e);
+            error(e);
+            res.status(BAD_GATEWAY).send(e);
         }
     };
 
     logout = async (req, res) => {
         await this.authService.logout(req, res);
-        res.status(httpStatus.NO_CONTENT).send();
+        res.status(NO_CONTENT).send();
     };
 
     refreshTokens = async (req, res) => {
@@ -74,14 +74,14 @@ class UserController {
             );
             const user = await this.userService.getUserByUuid(refreshTokenDoc.user_uuid);
             if (user == null) {
-                res.status(httpStatus.BAD_GATEWAY).send('User Not Found!');
+                res.status(BAD_GATEWAY).send('User Not Found!');
             }
             await this.tokenService.removeTokenById(refreshTokenDoc.id);
             const tokens = await this.tokenService.generateAuthTokens(user);
             res.send(tokens);
         } catch (e) {
-            logger.error(e);
-            res.status(httpStatus.BAD_GATEWAY).send(e);
+            error(e);
+            res.status(BAD_GATEWAY).send(e);
         }
     };
 
@@ -90,10 +90,10 @@ class UserController {
             const responseData = await this.userService.changePassword(req.body, req.user.uuid);
             res.status(responseData.statusCode).send(responseData.response);
         } catch (e) {
-            logger.error(e);
-            res.status(httpStatus.BAD_GATEWAY).send(e);
+            error(e);
+            res.status(BAD_GATEWAY).send(e);
         }
     };
 }
 
-module.exports = UserController;
+export default UserController;
