@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "node js starter template using sequelize orm",
   "main": "src/server.js",
-  "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/server.js",
     "start": "cross-env NODE_ENV=production node src/server.js",
@@ -29,7 +28,7 @@
     "form-data": "^4.0.0",
     "http-status": "^1.6.2",
     "joi": "^17.9.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.1",
     "mailgun.js": "^9.1.1",
     "md5": "^2.3.0",
     "moment": "^2.29.2",

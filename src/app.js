@@ -9,7 +9,7 @@ import ApiError from './utilities/ApiError';
 
 process.env.PWD = process.cwd();
 
-const app = express();
+export const app = express();
 
 // enable cors
 app.use(cors());
@@ -49,4 +49,6 @@ import db from './models';
 // Uncomment this line if you want to sync database model
 // db.sequelize.sync()
 
-export default app;
+export default {
+    app
+};

@@ -49,7 +49,10 @@ class AuthService {
     };
 
     /**
-     * Log user out
+     * log out function
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
      */
     logout = async (req, res) => {
         const refreshTokenDoc = await this.TokenDaom.findOne({

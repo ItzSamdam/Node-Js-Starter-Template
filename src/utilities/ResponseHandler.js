@@ -26,7 +26,7 @@ const logErrorMiddleware = (err, req, res, next) => {
  * @param statusCode
  * @param message
  */
-const returnError = (statusCode, message) => {
+export const returnError = (statusCode, message) => {
     return {
         statusCode,
         response: {
@@ -43,7 +43,7 @@ const returnError = (statusCode, message) => {
  * @param message
  * @param data
  */
-const returnSuccess = (statusCode, message, data = {}) => {
+export const returnSuccess = (statusCode, message, data = {}) => {
     return {
         statusCode,
         response: {

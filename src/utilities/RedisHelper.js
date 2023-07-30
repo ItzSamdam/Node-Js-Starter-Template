@@ -66,6 +66,10 @@ class RedisHelper
         }
     }
 
+    /**
+     * @param key
+     * @returns {Promise<boolean>}
+     */
     scanStream = async (key) => {
         try {
             await this.redisClient.scanStream({

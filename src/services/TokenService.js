@@ -88,7 +88,7 @@ class TokenService {
     };
 
     /**
-     * Delete TOken by ID
+     * Delete Token by ID
      * @returns {Object}
      * @param id
      */

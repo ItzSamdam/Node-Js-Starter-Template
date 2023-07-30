@@ -8,6 +8,11 @@ import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 class MediaHandler {
 
+    /**
+     * @param req
+     * @param res
+     * @returns {Promise<Multer|boolean>}
+     */
     pathStorage = async (req, res) => {
         try {
             const storage = diskStorage({
@@ -35,6 +40,12 @@ class MediaHandler {
         }
     }
 
+    /**
+     * @param file
+     * @param callback
+     * @param folder
+     * @returns {Promise<Multer|boolean>}
+     */
     cloudinaryUpload = async (file, callback, folder) => {
         try {
             //instantiate cloudinary setup
@@ -75,6 +86,11 @@ class MediaHandler {
         }
     }
 
+    /**
+     *
+     * @param public_id
+     * @returns {Promise<boolean>}
+     */
     cloudinaryDelete = async (public_id) => {
         try {
             cloudinary.config({
